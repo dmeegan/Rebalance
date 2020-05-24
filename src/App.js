@@ -16,7 +16,7 @@ class App extends React.Component {
       marketValue: '',
       currentPercentage: '',
       targetPercentage: '',
-      quantity:'',
+      targetValue:'',
       addedValue:'',
       sellOrPurchase:'',
       costOrValue:'',
@@ -24,10 +24,10 @@ class App extends React.Component {
     ]
   }
 
-  getQuantity = (event, id) => {
+   getQuantity = (id, event) => {
     this.setState({ portfolio: this.state.portfolio.map(stock => {
       if (stock.id === id) {
-        stock.quantity = event.target.value;
+        stock["quantity"] = event.target.value;
       }
       return stock;
     })});
@@ -38,6 +38,8 @@ class App extends React.Component {
     this.setState({ portfolio: [...this.state.portfolio.filter(portfolio => portfolio.id !== id)] }
     )
   }
+
+  
 
   render() {
     return (
