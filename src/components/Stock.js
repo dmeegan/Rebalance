@@ -14,6 +14,9 @@ class Stock extends Component {
             <tbody>
             <tr>
                 <td>
+                    <button type="button" className="removeStockButton" onClick={this.props.delStock.bind(this, id)}/>
+                </td>
+                <td>
                     {symbol} 
                 </td>
                 <td>
