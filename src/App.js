@@ -8,20 +8,21 @@ import './App.css';
 
 class App extends React.Component {
   state = {
+    totalAssets: '',
     portfolio: [
-    //   {
-    //   id: '1',
-    //   symbol: "MSFT",
-    //   currentPrice: '153',
-    //   quantity: '',
-    //   marketValue: '',
-    //   currentPercentage: '',
-    //   targetPercentage: '',
-    //   targetValue: '',
-    //   addedValue: '',
-    //   sellOrPurchase: '',
-    //   costOrValue: '',
-    // },
+      //   {
+      //   id: '1',
+      //   symbol: "MSFT",
+      //   currentPrice: '153',
+      //   quantity: '',
+      //   marketValue: '',
+      //   currentPercentage: '',
+      //   targetPercentage: '',
+      //   targetValue: '',
+      //   addedValue: '',
+      //   sellOrPurchase: '',
+      //   costOrValue: '',
+      // },
     ]
   }
 
@@ -29,7 +30,7 @@ class App extends React.Component {
     let newPortfolioItem = {};
     let symbolToAdd = '';
     let currentPrice = '';
-    let newId=this.state.portfolio.length+1
+    let newId = this.state.portfolio.length + 1
     let API_Key = 'WTIDRPP8PEFL74TS';
     let Search_API_Call = `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${userSymbolInput}&apikey=${API_Key}`;
 
@@ -74,39 +75,121 @@ class App extends React.Component {
                   sellOrPurchase: '',
                   costOrValue: '',
                 };
-                this.setState({ portfolio: [...this.state.portfolio, newPortfolioItem]});
+                this.setState({ portfolio: [...this.state.portfolio, newPortfolioItem] });
               }
             )
         }
       )
   }
 
+  delStock = (id) => {
+    this.setState({ portfolio: [...this.state.portfolio.filter(portfolio => portfolio.id !== id)] }
+    )
+  }
 
   getQuantity = (id, e) => {
+    this.setState({ totalAssets: ''})
+    let marketValueArray = []
     this.setState({
       portfolio: this.state.portfolio.map(stock => {
         if (stock.id === id) {
-          stock["quantity"] = e.target.value;
+          stock["quantity"] = +e.target.value;
+          stock["marketValue"] = +Math.round((stock.quantity) * (stock.currentPrice), 2);
+        }
+        marketValueArray.push(stock.marketValue)
+        return stock;
+      }),
+      totalAssets: +(marketValueArray.reduce((c, n) => c + n))
+    }
+    )
+  }
+
+  // calculateMarketValue = (id) => {
+  //   this.setState({
+  //     portfolio: this.state.portfolio.map(stock => {
+  //       if (stock.id === id) {
+  //         stock["marketValue"] = (stock.quantity) * (stock.currentPrice);
+  //       }
+  //       return stock;
+  //     })
+  //   })
+  // }
+
+  // calculateTotalAssets = () => {
+  //   this.setState({
+  //     totalAssets: this.state.portfolio.reduce((c, n) => c.marketValue + n.marketValue)
+  //   })
+  // }
+
+  calculateCurrentPercentage = (id) => {
+    this.setState({
+      portfolio: this.state.portfolio.map(stock => {
+        if (stock.id === id) {
+          stock["currentPercentage"] = stock.quantity * stock.currentPrice
+        }
+        return stock;
+      })
+    }
+    )
+  }
+
+
+  getTargetPercentage = (id, e) => {
+    this.setState({
+      portfolio: this.state.portfolio.map(stock => {
+        if (stock.id === id) {
+          stock["targetPercentage"] = e.target.value;
         }
         return stock;
       })
     });
   }
 
-
-  delStock = (id) => {
-    this.setState({ portfolio: [...this.state.portfolio.filter(portfolio => portfolio.id !== id)] }
+  calculateTargetValue = (id) => {
+    this.setState({
+      portfolio: this.state.portfolio.map(stock => {
+        if (stock.id === id) {
+          stock["targetValue"] = stock.targetPercentage * this.state.totalAssets
+        }
+        return stock;
+      })
+    }
     )
   }
 
+   // calculateAddedValue = () => {}
 
+  calculateSellOrPurchase = (id) => {
+    this.setState({
+      portfolio: this.state.portfolio.map(stock => {
+        if (stock.id === id) {
+          stock["sellOrPurchase"] = Math.floor((stock.targetPercentage * this.state.totalAssets))
+        }
+        return stock;
+      })
+    }
+    )
+  }
+
+ 
 
 
   render() {
     return (
       <div className="App">
         <AddStock addStock={this.addStock} />
-        <Portfolio getQuantity={this.getQuantity} delStock={this.delStock} portfolio={this.state.portfolio} />
+        <Portfolio
+          getQuantity={this.getQuantity}
+          delStock={this.delStock}
+          portfolio={this.state.portfolio}
+          calculateMarketValue={this.calculateMarketValue}
+          calculateMarketValue={this.calculateMarketValue}
+          calculateTotalAssets={this.calculateTotalAssets}
+          calculateCurrentPercentage={this.calculateTotalAssets}
+          getTargetPercentage={this.getTargetPercentage}
+          calculateTargetValue={this.calculateTargetValue}
+          calculateSellOrPurchase={this.calculateSellOrPurchase}
+        />
       </div>
 
       /* <div className="rebalance table container">
