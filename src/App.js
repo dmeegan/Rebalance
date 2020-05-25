@@ -83,9 +83,16 @@ class App extends React.Component {
   }
 
   delStock = (id) => {
+    let currentTotalAssets = 0;
     this.setState({
-      portfolio: [...this.state.portfolio.filter(portfolio => portfolio.id !== id)],
-      totalAssets: this.state.totalAssets - this.state.portfolio.find( portfolio => portfolio.id === id).marketValue
+      totalAssets: this.state.totalAssets - this.state.portfolio.find( portfolio => portfolio.id === id).marketValue,
+      portfolio: [...this.state.portfolio.filter(portfolio => portfolio.id !== id)].map(stock => {
+        if (stock.id != id) {
+        currentTotalAssets += stock.marketValue;
+        stock["currentPercentage"] = Math.round(100 * (stock.marketValue / currentTotalAssets), 2)
+        } 
+        return stock;
+      })
     }
     )
   }
@@ -93,53 +100,36 @@ class App extends React.Component {
   // totalAssets: this.state.totalAssets - this.state.portfolio[this.state.portfolio.indexOf(id)].marketValue,
 
   getQuantity = (id, e) => {
+    let currentTotalAssets = 0;
     this.setState({ totalAssets: '' });
-    let marketValueArray = [];
     this.setState({
       portfolio: this.state.portfolio.map(stock => {
         if (stock.id === id) {
           stock["quantity"] = +e.target.value;
           stock["marketValue"] = +Math.round((stock.quantity) * (stock.currentPrice), 2)
         };
-        marketValueArray.push(stock.marketValue);
+        currentTotalAssets += +stock.marketValue;
+        this.state.portfolio.map(stock => {
+          stock["currentPercentage"] = Math.round(100 * (stock.marketValue / currentTotalAssets), 2)
+        })
         return stock;
       }),
-      totalAssets: +(marketValueArray.reduce((c, n) => c + n)),
+      totalAssets: currentTotalAssets
+    })
+  }
+
+  calculateCurrentPercentage = (id) =>  {
+    console.log(this.state.totalAssets)
+    this.setState({
+      portfolio: this.state.portfolio.map(stock => {
+        if (stock.id === id) {
+          stock["currentPercentage"] = Math.round((stock.marketValue / this.state.totalAssets), 2)
+        }
+        return stock;
+      })
     }
     )
   }
-
-
-
-
-  // calculateMarketValue = (id) => {
-  //   this.setState({
-  //     portfolio: this.state.portfolio.map(stock => {
-  //       if (stock.id === id) {
-  //         stock["marketValue"] = (stock.quantity) * (stock.currentPrice);
-  //       }
-  //       return stock;
-  //     })
-  //   })
-  // }
-
-  // calculateTotalAssets = () => {
-  //   this.setState({
-  //     totalAssets: this.state.portfolio.reduce((c, n) => c.marketValue + n.marketValue)
-  //   })
-  // }
-
-  // calculateCurrentPercentage = (id) => {
-  //   this.setState({
-  //     portfolio: this.state.portfolio.map(stock => {
-  //       if (stock.id === id) {
-  //         stock["currentPercentage"] = Math.round((stock.marketValue / this.state.totalAssets),2)
-  //       }
-  //       return stock;
-  //     })
-  //   }
-  //   )
-  // }
 
   getTargetPercentage = (id, e) => {
     this.setState({
@@ -190,9 +180,8 @@ class App extends React.Component {
           delStock={this.delStock}
           portfolio={this.state.portfolio}
           calculateMarketValue={this.calculateMarketValue}
-          calculateMarketValue={this.calculateMarketValue}
           calculateTotalAssets={this.calculateTotalAssets}
-          calculateCurrentPercentage={this.calculateTotalAssets}
+          calculateCurrentPercentage={this.calculateCurrentPercentage}
           getTargetPercentage={this.getTargetPercentage}
           calculateTargetValue={this.calculateTargetValue}
           calculateSellOrPurchase={this.calculateSellOrPurchase}

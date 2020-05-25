@@ -29,7 +29,7 @@ class Stock extends Component {
                     <output className="table output" id="quantityOutput">{quantity}</output>
                 </td>
                 <td>
-                    <output className="table output" id="marketValueOutput">{marketValue}</output>
+                    <output className="table output" id="marketValueOutput" onChange={this.props.calculateCurrentPercentage.bind(this, id)}>{marketValue}</output>
                 </td>
                 <td>
                     <output className="table output" id="currentPercentageOutput">{currentPercentage}</output>
