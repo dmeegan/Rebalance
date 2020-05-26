@@ -58,14 +58,14 @@ class App extends React.Component {
             )
             .then(
               (quoteData) => {
-                return currentPrice = quoteData["Global Quote"]["05. price"];
+                return currentPrice = +(quoteData["Global Quote"]["05. price"]);
               })
             .then(
               (currentPrice) => {
                 newPortfolioItem = {
                   id: newId,
                   symbol: symbolToAdd,
-                  currentPrice: currentPrice,
+                  currentPrice: currentPrice.toFixed(2),
                   quantity: '',
                   marketValue: '',
                   currentPercentage: '',
@@ -89,7 +89,7 @@ class App extends React.Component {
       portfolio: [...this.state.portfolio.filter(portfolio => portfolio.id !== id)].map(stock => {
         if (stock.id != id) {
         currentTotalAssets += stock.marketValue;
-        stock["currentPercentage"] = Math.round(100 * (stock.marketValue / currentTotalAssets), 2)
+        stock["currentPercentage"] = (100 * (stock.marketValue / currentTotalAssets)).toFixed(2);
         } 
         return stock;
       })
@@ -106,11 +106,11 @@ class App extends React.Component {
       portfolio: this.state.portfolio.map(stock => {
         if (stock.id === id) {
           stock["quantity"] = +e.target.value;
-          stock["marketValue"] = +Math.round((stock.quantity) * (stock.currentPrice), 2)
+          stock["marketValue"] = ((stock.quantity) * (stock.currentPrice)).toFixed(2)
         };
         currentTotalAssets += +stock.marketValue;
         this.state.portfolio.map(stock => {
-          stock["currentPercentage"] = Math.round(100 * (stock.marketValue / currentTotalAssets), 2)
+          stock["currentPercentage"] = (100 * (stock.marketValue / currentTotalAssets)).toFixed(2);
         })
         return stock;
       }),
@@ -123,7 +123,7 @@ class App extends React.Component {
     this.setState({
       portfolio: this.state.portfolio.map(stock => {
         if (stock.id === id) {
-          stock["currentPercentage"] = Math.round((stock.marketValue / this.state.totalAssets), 2)
+          stock["currentPercentage"] = (stock.marketValue / this.state.totalAssets).toFixed(2)
         }
         return stock;
       })
@@ -131,15 +131,24 @@ class App extends React.Component {
     )
   }
 
-  getTargetPercentage = (id, e) => {
+  handleTargetPercentageInput = (id, e) => {
+    let userPercentageInput = +(e.target.value, 2).toFixed(2);
+    if (userPercentageInput > 100) {
+      userPercentageInput = 100
+    } else if (userPercentageInput < 0) {
+      userPercentageInput = 0
+    }
     this.setState({
       portfolio: this.state.portfolio.map(stock => {
         if (stock.id === id) {
-          stock["targetPercentage"] = e.target.value;
-        }
+          stock["targetPercentage"] = +userPercentageInput;
+          stock["targetValue"] = ((stock.targetPercentage / 100) * (this.state.totalAssets)).toFixed(2);
+          stock["addedValue"] = +(stock.targetValue - stock.marketValue).toFixed(2);
+          stock["sellOrPurchase"] = Math.floor((+stock.targetValue) / (+stock.currentPrice));
+        };
         return stock;
       })
-    });
+    })
   }
 
   calculateTargetValue = (id) => {
@@ -178,11 +187,12 @@ class App extends React.Component {
         <Portfolio
           getQuantity={this.getQuantity}
           delStock={this.delStock}
+          totalAssets={this.state.totalAssets}
           portfolio={this.state.portfolio}
           calculateMarketValue={this.calculateMarketValue}
           calculateTotalAssets={this.calculateTotalAssets}
           calculateCurrentPercentage={this.calculateCurrentPercentage}
-          getTargetPercentage={this.getTargetPercentage}
+          handleTargetPercentageInput={this.handleTargetPercentageInput}
           calculateTargetValue={this.calculateTargetValue}
           calculateSellOrPurchase={this.calculateSellOrPurchase}
         />

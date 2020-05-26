@@ -6,18 +6,14 @@ class Stock extends Component {
 
     render() {
       
-    const {id, symbol, currentPrice, quantity, marketValue, currentPercentage, targetPercentage, targetValue, addedValue, sellOrPurchase, costOrValue} = this.props.stock;
+    const {id, symbol, totalAssets, currentPrice, quantity, marketValue, currentPercentage, targetPercentage, targetValue, addedValue, sellOrPurchase, costOrValue} = this.props.stock;
         return (
-
-            
-
-            <tbody>
             <tr>
                 <td>
-                    <button type="button" className="removeStockButton" onClick={this.props.delStock.bind(this, id)}/>
+                    <button type="button" className="removeStockButton" onClick={this.props.delStock.bind(this, id)}>Remove Stock</button>
                 </td>
                 <td>
-                    {symbol} 
+                    <output className="table output" id="symbolOutput">{symbol}</output>
                 </td>
                 <td>
                     <input type="number" min="0" className="table input" onChange={this.props.getQuantity.bind(this, id)}/>
@@ -26,16 +22,13 @@ class Stock extends Component {
                     <output className="table output" id="currentPriceOutput">{currentPrice}</output>
                 </td>
                 <td>
-                    <output className="table output" id="quantityOutput">{quantity}</output>
-                </td>
-                <td>
-                    <output className="table output" id="marketValueOutput" onChange={this.props.calculateCurrentPercentage.bind(this, id)}>{marketValue}</output>
+                    <output className="table output" id="marketValueOutput">{marketValue}</output>
                 </td>
                 <td>
                     <output className="table output" id="currentPercentageOutput">{currentPercentage}</output>
                 </td>
                 <td>
-                    <input type="number" min="0" max="100" className="table input" id="targetPercentageInput" />
+                    <input type="number" min="0" max="100" className="table input" id="targetPercentageInput" onBlur={this.props.handleTargetPercentageInput.bind(this, id)}/>
                 </td>
                 <td>
                     <output className="table output" id="targetValueOutput">{targetValue}</output>
@@ -50,7 +43,6 @@ class Stock extends Component {
                     <output className="table output" id="costOrValueOutput">{costOrValue}</output>
                 </td>
             </tr>
-        </tbody>
         )
     }
 }

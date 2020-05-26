@@ -49,10 +49,6 @@ class FetchStockSymbol extends React.Component {
                         )
                 }
             )
-
-
-
-
     }
 
 
