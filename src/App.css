@@ -13,13 +13,16 @@ html {
   margin-right: auto;
   margin-top: 100px;
   margin-bottom: 100px;
-  padding: 20px;
-  width: fit-content;
+  padding-top: 20px;
+  padding-right: 20px;
+  padding-left: 33px;
+  padding-bottom: 20px;
+  width: max-content;
   font: 100;
   text-align: center;
-  background-color: rgb(116, 33, 113);
-  color: white;
-  border-radius: 3vh;
+  background-color: rgb(126, 39, 121);
+  border-radius: 50vh;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
 
 .addStockForm input {
@@ -35,9 +38,15 @@ html {
   font-size: inherit;
   padding: 0.5em 1em;
   width: max-content;
-  border-radius: 1vh;
+  border-radius: 50vh;
   margin: 10px;
 }
+
+.addStockForm button:hover {
+ 
+}
+
+
 
 
 .stockTable {
@@ -45,7 +54,8 @@ html {
   font: 100;
   align-self: baseline;
   text-align: center;
-  background-color: rgb(116, 33, 113);
+  background-color: rgb(126, 39, 121);
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
   color: white;
   border-radius: 20px;
   padding: 20px;
@@ -68,11 +78,12 @@ html {
   font-size: inherit;
   padding: 0.5em 1em;
   background-color: #ddd;
+  border-radius: 1vh;
 }
 
 .stockTable button {
   line-height: 1.5em;
   width: max-content;
-  border-radius: 1vh;
+  border-radius: 50vh;
   padding: 0.5em 1em;
 }
