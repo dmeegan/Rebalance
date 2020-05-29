@@ -8,7 +8,7 @@ class AddStock extends Component {
 
     handleUserInput = (e) => {
         this.setState({
-            userSymbolInput: e.target.value
+            userSymbolInput: e.target.value.replace(" ","")
         });
     }
 
@@ -21,7 +21,7 @@ class AddStock extends Component {
     render() {
         return (
             <form className="addStockForm" onSubmit={this.handleSubmit}>
-            <input type="text" onChange={this.handleUserInput} value={this.state.userSymbolInput}/>
+            <input type="text" onChange={this.handleUserInput} required/>
             <button type="submit">Add Stock</button>
             </form>
         )

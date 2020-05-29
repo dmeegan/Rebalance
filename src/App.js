@@ -28,8 +28,9 @@ class App extends React.Component {
 
   addStock = (userSymbolInput) => {
     let newPortfolioItem = {};
-    let symbolToAdd = '';
+    let stockToAdd = '';
     let currentPrice = '';
+    let stockTitle = '';
     let newId = this.state.portfolio.length + 1
     let API_Key = 'WTIDRPP8PEFL74TS';
     let Search_API_Call = `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${userSymbolInput}&apikey=${API_Key}`;
@@ -43,12 +44,12 @@ class App extends React.Component {
       )
       .then(
         (searchData) => {
-          return symbolToAdd = searchData["bestMatches"][0]["1. symbol"];
+          return stockToAdd= searchData["bestMatches"][0];
         }
       )
       .then(
-        (symbolToAdd) => {
-          let Quote_API_Call = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbolToAdd}&interval=5min&apikey=${API_Key}&outputsize=compact`;
+        (stockToAdd) => {
+          let Quote_API_Call = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${stockToAdd["1. symbol"]}&interval=5min&apikey=${API_Key}&outputsize=compact`;
 
           fetch(Quote_API_Call)
             .then(
@@ -64,7 +65,8 @@ class App extends React.Component {
               (currentPrice) => {
                 newPortfolioItem = {
                   id: newId,
-                  symbol: symbolToAdd,
+                  symbol: stockToAdd["1. symbol"],
+                  name: stockToAdd["2. name"],
                   currentPrice: currentPrice.toFixed(2),
                   quantity: '',
                   marketValue: '',
@@ -87,7 +89,7 @@ class App extends React.Component {
     this.setState({
       totalAssets: this.state.totalAssets - this.state.portfolio.find( portfolio => portfolio.id === id).marketValue,
       portfolio: [...this.state.portfolio.filter(portfolio => portfolio.id !== id)].map(stock => {
-        if (stock.id != id) {
+        if (stock.id !== id) {
         currentTotalAssets += stock.marketValue;
         stock["currentPercentage"] = (100 * (stock.marketValue / currentTotalAssets)).toFixed(2);
         } 
@@ -132,7 +134,7 @@ class App extends React.Component {
   }
 
   handleTargetPercentageInput = (id, e) => {
-    let userPercentageInput = +(e.target.value, 2).toFixed(2);
+    let userPercentageInput = +(e.target.value);
     if (userPercentageInput > 100) {
       userPercentageInput = 100
     } else if (userPercentageInput < 0) {
@@ -141,44 +143,16 @@ class App extends React.Component {
     this.setState({
       portfolio: this.state.portfolio.map(stock => {
         if (stock.id === id) {
-          stock["targetPercentage"] = +userPercentageInput;
+          stock["targetPercentage"] = userPercentageInput.toFixed(2);
           stock["targetValue"] = ((stock.targetPercentage / 100) * (this.state.totalAssets)).toFixed(2);
           stock["addedValue"] = +(stock.targetValue - stock.marketValue).toFixed(2);
           stock["sellOrPurchase"] = Math.floor((+stock.targetValue) / (+stock.currentPrice));
+          stock["costOrValue"] = (stock.sellOrPurchase * stock.currentPrice).toFixed(2);
         };
         return stock;
       })
     })
   }
-
-  calculateTargetValue = (id) => {
-    this.setState({
-      portfolio: this.state.portfolio.map(stock => {
-        if (stock.id === id) {
-          stock["targetValue"] = stock.targetPercentage * this.state.totalAssets
-        }
-        return stock;
-      })
-    }
-    )
-  }
-
-  // calculateAddedValue = () => {}
-
-  calculateSellOrPurchase = (id) => {
-    this.setState({
-      portfolio: this.state.portfolio.map(stock => {
-        if (stock.id === id) {
-          stock["sellOrPurchase"] = Math.floor((stock.targetPercentage * this.state.totalAssets))
-        }
-        return stock;
-      })
-    }
-    )
-  }
-
-
-
 
   render() {
     return (

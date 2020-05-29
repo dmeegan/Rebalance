@@ -10,7 +10,7 @@ class Portfolio extends Component {
         return (
             <div>
             <table className="stockTable">
-                         <thead><tr><th></th><th>Symbol</th><th>Quantity</th><th>Current Price</th><th>Market Value</th><th>Current Percentage</th><th>Target Percentage</th><th>Target Value</th><th>Added Value</th><th>Sell or Purchase</th><th>Cost or Value</th></tr></thead>
+                         <thead><tr><th></th><th>Symbol</th><th>Stock Name</th><th>Quantity</th><th>Current Price</th><th>Market Value</th><th>Current Percentage</th><th>Target Percentage</th><th>Target Value</th><th>Added Value</th><th>Sell or Purchase</th><th>Cost or Value</th></tr></thead>
             <tbody>
                 {
                 this.props.portfolio.map((stock) => (

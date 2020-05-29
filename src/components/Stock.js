@@ -6,7 +6,7 @@ class Stock extends Component {
 
     render() {
       
-    const {id, symbol, totalAssets, currentPrice, quantity, marketValue, currentPercentage, targetPercentage, targetValue, addedValue, sellOrPurchase, costOrValue} = this.props.stock;
+    const {id, symbol, name, currentPrice, marketValue, currentPercentage, targetPercentage, targetValue, addedValue, sellOrPurchase, costOrValue} = this.props.stock;
         return (
             <tr>
                 <td>
@@ -14,6 +14,9 @@ class Stock extends Component {
                 </td>
                 <td>
                     <output className="table output" id="symbolOutput">{symbol}</output>
+                </td>
+                <td>
+                    <output className="table output" id="stockNameOutput">{name}</output>
                 </td>
                 <td>
                     <input type="number" min="0" className="table input" onChange={this.props.getQuantity.bind(this, id)}/>
@@ -28,7 +31,7 @@ class Stock extends Component {
                     <output className="table output" id="currentPercentageOutput">{currentPercentage}</output>
                 </td>
                 <td>
-                    <input type="number" min="0" max="100" className="table input" id="targetPercentageInput" onBlur={this.props.handleTargetPercentageInput.bind(this, id)}/>
+                    <input type="number" min="0" max="100" className="table input" id="targetPercentageInput" onChange={this.props.handleTargetPercentageInput.bind(this, id)}/>
                 </td>
                 <td>
                     <output className="table output" id="targetValueOutput">{targetValue}</output>
