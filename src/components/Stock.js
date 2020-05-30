@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import {Button, FormControl} from 'react-bootstrap';
 
 class Stock extends Component {
    
@@ -10,40 +11,40 @@ class Stock extends Component {
         return (
             <tr>
                 <td>
-                    <button type="button" className="removeStockButton" onClick={this.props.delStock.bind(this, id)}>Remove Stock</button>
+                    <Button variant="primary" type="button" className="removeStockButton" onClick={this.props.delStock.bind(this, id)}>Remove</Button>
                 </td>
                 <td>
-                    <output className="table output" id="symbolOutput">{symbol}</output>
+                    {symbol}
                 </td>
                 <td>
-                    <output className="table output" id="stockNameOutput">{name}</output>
+                    {name}
                 </td>
                 <td>
-                    <input type="number" min="0" className="table input" onChange={this.props.getQuantity.bind(this, id)}/>
+                    <FormControl type="number" min="0" className="table input" onChange={this.props.getQuantity.bind(this, id)}/>
                 </td>
                 <td>
-                    <output className="table output" id="currentPriceOutput">{currentPrice}</output>
+                    {currentPrice}
                 </td>
                 <td>
-                    <output className="table output" id="marketValueOutput">{marketValue}</output>
+                    {marketValue}
                 </td>
                 <td>
-                    <output className="table output" id="currentPercentageOutput">{currentPercentage}</output>
+                    {currentPercentage}
                 </td>
                 <td>
-                    <input type="number" min="0" max="100" className="table input" id="targetPercentageInput" onChange={this.props.handleTargetPercentageInput.bind(this, id)}/>
+                    <FormControl type="number" min="0" max="100" className="input" id="targetPercentageInput" onChange={this.props.handleTargetPercentageInput.bind(this, id)}/>
                 </td>
                 <td>
-                    <output className="table output" id="targetValueOutput">{targetValue}</output>
+                    {targetValue}
                 </td>
                 <td>
-                    <output className="table output" id="addedValueOutput">{addedValue}</output>
+                    {addedValue}
                 </td>
                 <td>
-                    <output className="table output" id="sellOrPurchaseOutput">{sellOrPurchase}</output>
+                    {sellOrPurchase}
                 </td>
                 <td>
-                    <output className="table output" id="costOrValueOutput">{costOrValue}</output>
+                    {costOrValue}
                 </td>
             </tr>
         )

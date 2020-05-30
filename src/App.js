@@ -2,6 +2,7 @@ import React from 'react';
 import Portfolio from './components/Portfolio';
 import AddStock from './components/AddStock';
 // import AcceptUserStockSymbol from './acceptUserStockSymbol.js';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 // import FetchStockSymbol from './fetchStockSymbol.js';
 
@@ -146,7 +147,7 @@ class App extends React.Component {
           stock["targetPercentage"] = userPercentageInput.toFixed(2);
           stock["targetValue"] = ((stock.targetPercentage / 100) * (this.state.totalAssets)).toFixed(2);
           stock["addedValue"] = +(stock.targetValue - stock.marketValue).toFixed(2);
-          stock["sellOrPurchase"] = Math.floor((+stock.targetValue) / (+stock.currentPrice));
+          stock["sellOrPurchase"] = Math.floor((stock.targetValue - stock.marketValue) / (+stock.currentPrice));
           stock["costOrValue"] = (stock.sellOrPurchase * stock.currentPrice).toFixed(2);
         };
         return stock;

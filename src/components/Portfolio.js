@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Stock from './Stock';
 import PropTypes from 'prop-types';
+import { Table } from 'react-bootstrap';
 
 
 class Portfolio extends Component {
@@ -9,8 +10,8 @@ class Portfolio extends Component {
         if (this.props.portfolio.length > 0) {
         return (
             <div>
-            <table className="stockTable">
-                         <thead><tr><th></th><th>Symbol</th><th>Stock Name</th><th>Quantity</th><th>Current Price</th><th>Market Value</th><th>Current Percentage</th><th>Target Percentage</th><th>Target Value</th><th>Added Value</th><th>Sell or Purchase</th><th>Cost or Value</th></tr></thead>
+            <Table striped bordered hover variant="dark">
+                         <thead><tr><th scope="col"></th><th scope="col">Symbol</th><th scope="col">Stock Name</th><th scope="col">Quantity</th><th scope="col">Current Price</th><th scope="col">Market Value</th><th scope="col">Current Percentage</th><th scope="col">Target Percentage</th><th scope="col">Target Value</th><th scope="col">Added Value</th><th scope="col">Sell or Purchase</th><th scope="col">Cost or Value</th></tr></thead>
             <tbody>
                 {
                 this.props.portfolio.map((stock) => (
@@ -29,7 +30,8 @@ class Portfolio extends Component {
                 />
             )) }
             </tbody> 
-            </table>
+            <tfoot><tr><th>Total</th><td></td><td></td><td></td><td></td><td>{this.props.totalAssets}</td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tfoot>
+            </Table>
             </div>
         )
     } else {

@@ -1,11 +1,13 @@
 html {
-  background-color: #2c2c2c;
+  background-color: black;
 }
 
 .App {
-  text-align: center;
+  background-color:black;
+  /* text-align: center;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 16px;
+  font: 100; */
 }
 
 .addStockForm {
@@ -17,72 +19,34 @@ html {
   padding-right: 20px;
   padding-left: 33px;
   padding-bottom: 20px;
-  width: max-content;
-  font: 100;
-  text-align: center;
-  background-color: rgb(126, 39, 121);
-  border-radius: 50vh;
-  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+  width: intrinsic;           
+  width: 400px;
 }
 
-.addStockForm input {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-size: inherit;
-  padding: 0.5em 1em;
-  background-color: whitesmoke;
-  border-radius: 1vh;
-}
-
-.addStockForm button {
-  font-family: inherit;
-  font-size: inherit;
-  padding: 0.5em 1em;
-  width: max-content;
-  border-radius: 50vh;
-  margin: 10px;
-}
-
-.addStockForm button:hover {
- 
-}
-
-
-
-
-.stockTable {
-  margin: 50px;
-  align-self: baseline;
-  text-align: center;
-  background-color: rgb(126, 39, 121);
+.table {
   color: whitesmoke;
-  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
-  border-radius: 20px;
-  padding: 20px;
-}
-
-.stockTable th {
-  padding: 15px;
+  margin-bottom: unset;
+  margin: auto;
+  width: 95%;
   text-align: center;
-  word-wrap: break-word;
-  flex-wrap: wrap;  
 }
 
-.stockTable tr {
-  height: 50px;
+
+
+.table Input {
+  color: #495057;
+  /* margin-bottom: unset; */
 }
 
-.stockTable input {
-  font-family: inherit;
-  font-size: inherit;
-  padding: 0.5em 1em;
-  background-color: whitesmoke;
-  border-radius: 1vh;
-  width: 40px;
+
+.table td {
+  vertical-align: middle;
+  color: #bad1fc;
+  font-size: 16;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
-.stockTable button {
-  line-height: 1.5em;
-  width: max-content;
-  border-radius: 50vh;
-  padding: 0.5em 1em;
+.table input {
+  width: 100px;
 }
+
