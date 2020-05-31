@@ -9,22 +9,11 @@ import './App.css';
 
 class App extends React.Component {
   state = {
-    totalAssets: '',
+    currentTotalAssets: 0,
     portfolio: [
-      //   {
-      //   id: '1',
-      //   symbol: "MSFT",
-      //   currentPrice: '153',
-      //   quantity: '',
-      //   marketValue: '',
-      //   currentPercentage: '',
-      //   targetPercentage: '',
-      //   targetValue: '',
-      //   addedValue: '',
-      //   sellOrPurchase: '',
-      //   costOrValue: '',
-      // },
-    ]
+    ], 
+    addedValue: 0,
+    newTotalAssets: 0
   }
 
   addStock = (userSymbolInput) => {
@@ -80,24 +69,24 @@ class App extends React.Component {
                 };
                 this.setState({ portfolio: [...this.state.portfolio, newPortfolioItem] });
               }
-            ).catch ( 
+            ).catch(
               () => alert("Error: Either your search term was invalid, or the request to add a stock was too frequent. Please try again.")
             )
         }
       )
-      .catch ( 
+      .catch(
         () => alert("Error: Either your search term was invalid, or the request to add a stock was too frequent. Please try again.")
       )
   }
 
   delStock = (id) => {
-    let currentTotalAssets = 0;
+    let assetsAccumulator = 0;
     this.setState({
-      totalAssets: this.state.totalAssets - this.state.portfolio.find(portfolio => portfolio.id === id).marketValue,
+      currentTotalAssets: this.state.currentTotalAssets - this.state.portfolio.find(portfolio => portfolio.id === id).marketValue,
       portfolio: [...this.state.portfolio.filter(portfolio => portfolio.id !== id)].map(stock => {
         if (stock.id !== id) {
-          currentTotalAssets += stock.marketValue;
-          stock["currentPercentage"] = (100 * (stock.marketValue / currentTotalAssets)).toFixed(2);
+          assetsAccumulator += stock.marketValue;
+          stock["currentPercentage"] = (100 * (stock.marketValue / assetsAccumulator)).toFixed(2);
         }
         return stock;
       })
@@ -106,33 +95,34 @@ class App extends React.Component {
   }
 
   getQuantity = (id, e) => {
-    let currentTotalAssets = 0;
+    let assetsAccumulator = 0;
     let userQuantityInput = +e.target.value;
     if (userQuantityInput < 0) {
       userQuantityInput = 0;
     }
-    this.setState({ totalAssets: '' });
+    this.setState({ currentTotalAssets: '' });
     this.setState({
       portfolio: this.state.portfolio.map(stock => {
         if (stock.id === id) {
           stock["quantity"] = +userQuantityInput;
           stock["marketValue"] = ((stock.quantity) * (stock.currentPrice)).toFixed(2)
-          stock["targetValue"] = ((stock.targetPercentage / 100) * (this.state.totalAssets)).toFixed(2);
+          stock["targetValue"] = ((stock.targetPercentage / 100) * (this.state.currentTotalAssets)).toFixed(2);
           stock["addedValue"] = +(stock.targetValue - stock.marketValue).toFixed(2);
-          stock["sellOrPurchase"] = Math.floor((stock.targetValue - stock.marketValue) / (+stock.currentPrice));
-          stock["costOrValue"] = (-1* stock.sellOrPurchase * stock.currentPrice).toFixed(2);
+          stock["sellOrPurchase"] =  stock.addedValue > 0 ? Math.floor((stock.addedValue) / (stock.currentPrice)) : Math.ceil((stock.addedValue) / (stock.currentPrice));
+          stock["costOrValue"] = (stock.sellOrPurchase * stock.currentPrice).toFixed(2);
         };
-        currentTotalAssets += +stock.marketValue;
+        assetsAccumulator += +stock.marketValue;
         this.state.portfolio.map(stock => {
-          stock["currentPercentage"] = +(100 * (+stock.marketValue / currentTotalAssets)).toFixed(2) || 0;
-          stock["targetValue"] = ((stock.targetPercentage / 100) * (this.state.totalAssets)).toFixed(2);
+          stock["currentPercentage"] = +(100 * (+stock.marketValue / assetsAccumulator)).toFixed(2) || 0;
+          stock["targetValue"] = ((stock.targetPercentage / 100) * (this.state.currentTotalAssets)).toFixed(2);
           stock["addedValue"] = +(stock.targetValue - stock.marketValue).toFixed(2);
-          stock["sellOrPurchase"] = Math.floor((stock.targetValue - stock.marketValue) / (+stock.currentPrice));
-          stock["costOrValue"] = (-1* stock.sellOrPurchase * stock.currentPrice).toFixed(2);
+          stock["sellOrPurchase"] = stock.addedValue > 0 ? Math.floor((stock.addedValue) / (stock.currentPrice)) : Math.ceil((stock.addedValue) / (stock.currentPrice));
+          stock["costOrValue"] = (stock.sellOrPurchase * stock.currentPrice).toFixed(2);
         })
         return stock;
       }),
-      totalAssets: currentTotalAssets.toFixed(2),
+      currentTotalAssets: assetsAccumulator.toFixed(2),
+      newTotalAssets: this.state.currentTotalAssets + this.state.addedValue
     })
   }
 
@@ -147,10 +137,10 @@ class App extends React.Component {
       portfolio: this.state.portfolio.map(stock => {
         if (stock.id === id) {
           stock["targetPercentage"] = userPercentageInput;
-          stock["targetValue"] = ((stock.targetPercentage / 100) * (this.state.totalAssets)).toFixed(2);
+          stock["targetValue"] = ((stock.targetPercentage / 100) * (this.state.currentTotalAssets)).toFixed(2);
           stock["addedValue"] = +(stock.targetValue - stock.marketValue).toFixed(2);
-          stock["sellOrPurchase"] = Math.floor((stock.targetValue - stock.marketValue) / (+stock.currentPrice));
-          stock["costOrValue"] = (-1* stock.sellOrPurchase * stock.currentPrice).toFixed(2);
+          stock["sellOrPurchase"] =  stock.addedValue > 0 ? Math.floor((stock.addedValue) / (stock.currentPrice)) : Math.ceil((stock.addedValue) / (stock.currentPrice));
+          stock["costOrValue"] = (-1 * stock.sellOrPurchase * stock.currentPrice).toFixed(2);
         };
         return stock;
       })
@@ -164,7 +154,7 @@ class App extends React.Component {
         <Portfolio
           getQuantity={this.getQuantity}
           delStock={this.delStock}
-          totalAssets={this.state.totalAssets}
+          currentTotalAssets={this.state.currentTotalAssets}
           portfolio={this.state.portfolio}
           calculateMarketValue={this.calculateMarketValue}
           calculateTotalAssets={this.calculateTotalAssets}
@@ -174,110 +164,6 @@ class App extends React.Component {
           calculateSellOrPurchase={this.calculateSellOrPurchase}
         />
       </div>
-
-      /* <div className="rebalance table container">
-                      <table className="table">
-                          <thead>
-                              <tr>
-                                  <th>
-                                      Symbol
-                  </th>
-                                  <th>
-                                      Quantity
-                  </th>
-                                  <th>
-                                      Current Price
-                  </th>
-                                  <th>
-                                      Market Value
-                  </th>
-                                  <th>
-                                      Current Percentage
-                  </th>
-                                  <th>
-                                      Target Percentage
-                  </th>
-                                  <th>
-                                      Target Value
-                  </th>
-                                  <th>
-                                      Added Value
-                  </th>
-                                  <th>
-                                      Sell or Purchase
-                  </th>
-                                  <th>
-                                      Cost or Value
-                  </th>
-                              </tr>
-                          </thead>
-                          <tbody>
-                              <tr>
-                                  <td>
-                                      <output className="table output" id="symbolOutput" value={this.props.portfolio.stock.bind(
-                                          this, id)}/>
-                                  </td>
-                                  <td>
-                                      <input type="number" min="0" className="table input" id="quantityInput" />
-                                  </td>
-                                  <td>
-                                      <output className="table output" id="currentPriceOutput" />
-                                  </td>
-                                  <td>
-                                      <output className="table output" id="currentPercentageOutput" />
-                                  </td>
-                                  <td>
-                                      <input type="number" min="0" max="100" className="table input" id="targetPercentageInput" />
-                                  </td>
-                                  <td>
-                                      <output className="table output" id="targetValueOutput" />
-                                  </td>
-                                  <td>
-                                      <output className="table output" id="addedValueOutput" />
-                                  </td>
-                                  <td>
-                                      <output className="table output" id="sellOrPurchaseOutput" />
-                                  </td>
-                                  <td>
-                                      <output className="table output" id="costOrValueOutput" />
-                                  </td>
-                              </tr>
-                          </tbody>
-                      </table>
-                  </div> */
-      //   <div className="Totals Table container">
-      //     <table className="table">
-      //       <tbody>
-      //         <tr>
-      //           <th>
-      //             Current Total
-      //           </th>
-      //           <td>
-      //             <output className="table output" id="currentTotalOutput" />
-      //           </td>
-      //         </tr>
-      //         <tr>
-      //           <th>
-      //             Added Value
-      //           </th>
-      //           <td>
-      //             <input type="number" min="0" className="table input" id="totalAddedValueInput" />
-      //           </td>
-      //         </tr>
-      //       </tbody>
-      //       <tbody>
-      //         <tr>
-      //           <th>
-      //             New Total
-      //           </th>
-      //           <td>
-      //             <output className="table output" id="newTotalOutput" />
-      //           </td>
-      //         </tr>
-      //       </tbody>
-      //     </table>
-      //   </div>
-      // </div>
     )
   }
 }

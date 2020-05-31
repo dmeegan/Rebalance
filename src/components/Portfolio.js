@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import Stock from './Stock';
 import PropTypes from 'prop-types';
 import { Table } from 'react-bootstrap';
+import CurrentTotalAssets from './CurrentTotalAssets';
+import AddedAssets from './AddedAssets';
+import NewTotalAssets from './NewTotalAssets';
 
 
 class Portfolio extends Component {
@@ -19,10 +22,10 @@ class Portfolio extends Component {
                     key={stock.id}
                     getQuantity={this.props.getQuantity}
                     delStock={this.props.delStock}
-                    totalAssets={this.props.totalAssets}
+                    currentTotalAssets={this.props.currentTotalAssets}
                     stock={stock}
                     calculateMarketValue={this.props.calculateMarketValue}
-                    calculateTotalAssets={this.props.calculateTotalAssets}
+                    calculatecurrentTotalAssets={this.props.calculatecurrentTotalAssets}
                     calculateCurrentPercentage={this.props.calculateCurrentPercentage}
                     handleTargetPercentageInput={this.props.handleTargetPercentageInput}
                     calculateTargetValue={this.props.calculateTargetValue}
@@ -30,7 +33,10 @@ class Portfolio extends Component {
                 />
             )) }
             </tbody> 
-            <tfoot><tr><th>Total</th><td></td><td></td><td></td><td></td><td>{this.props.totalAssets}</td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tfoot>
+            <tfoot><tr><th>Total</th><td></td><td></td><td></td><td></td><td>{this.props.currentTotalAssets}</td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tfoot>
+            {/* <CurrentTotalAssets currentTotalAssets={this.props.currentTotalAssets}/>
+            <AddedAssets addedAssets={this.props.addedAssets} handleAddedAssetsInput={this.props.handleAddedAssetsInput}/>
+            <NewTotalAssets newTotalAssets={this.props.newTotalAssets}/> */}
             </Table>
             </div>
         )
