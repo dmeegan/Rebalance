@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/rebalance/static/css/main.416c7f69.chunk.css",
+    "main.js": "/rebalance/static/js/main.2b302131.chunk.js",
+    "main.js.map": "/rebalance/static/js/main.2b302131.chunk.js.map",
+    "runtime-main.js": "/rebalance/static/js/runtime-main.3577762d.js",
+    "runtime-main.js.map": "/rebalance/static/js/runtime-main.3577762d.js.map",
+    "static/css/2.af3c1da9.chunk.css": "/rebalance/static/css/2.af3c1da9.chunk.css",
+    "static/js/2.2d84c26c.chunk.js": "/rebalance/static/js/2.2d84c26c.chunk.js",
+    "static/js/2.2d84c26c.chunk.js.map": "/rebalance/static/js/2.2d84c26c.chunk.js.map",
+    "index.html": "/rebalance/index.html",
+    "precache-manifest.bf8a42d3b470a981e19c70637d71aca7.js": "/rebalance/precache-manifest.bf8a42d3b470a981e19c70637d71aca7.js",
+    "service-worker.js": "/rebalance/service-worker.js",
+    "static/css/2.af3c1da9.chunk.css.map": "/rebalance/static/css/2.af3c1da9.chunk.css.map",
+    "static/css/main.416c7f69.chunk.css.map": "/rebalance/static/css/main.416c7f69.chunk.css.map",
+    "static/js/2.2d84c26c.chunk.js.LICENSE.txt": "/rebalance/static/js/2.2d84c26c.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.3577762d.js",
+    "static/css/2.af3c1da9.chunk.css",
+    "static/js/2.2d84c26c.chunk.js",
+    "static/css/main.416c7f69.chunk.css",
+    "static/js/main.2b302131.chunk.js"
+  ]
+}
