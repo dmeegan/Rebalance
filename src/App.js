@@ -40,48 +40,30 @@ class App extends React.Component {
     fetch(Search_API_Call)
       .then(
         (searchResponse) => {
-          // if (!searchResponse.ok) {
-          //   throw Error(searchResponse.statusText)
-          // }
           return searchResponse.json();
         }
       )
       .then(
         (searchData) => {
-          // if (!searchData.ok) {
-          //   throw new Error(searchData.statusText)
-          // }
           return stockToAdd = searchData["bestMatches"][0];
         }
       )
       .then(
         (stockToAdd) => {
-          // if (!stockToAdd.ok) {
-          //   throw Error(stockToAdd.statusText)
-          // }
           let Quote_API_Call = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${stockToAdd["1. symbol"]}&interval=5min&apikey=${API_Key}&outputsize=compact`;
 
           fetch(Quote_API_Call)
             .then(
               (quoteResponse) => {
-                // if (!quoteResponse.ok) {
-                //   throw Error(quoteResponse.statusText)
-                // }
                 return quoteResponse.json();
               }
             )
             .then(
               (quoteData) => {
-                // if (!quoteData.ok) {
-                //   throw Error(quoteData.statusText)
-                // }
                 return currentPrice = +(quoteData["Global Quote"]["05. price"]);
               })
             .then(
               (currentPrice) => {
-                // if (!currentPrice.ok) {
-                //   throw Error(currentPrice.statusText)
-                // }
                 newPortfolioItem = {
                   id: newId,
                   symbol: stockToAdd["1. symbol"],
@@ -99,12 +81,12 @@ class App extends React.Component {
                 this.setState({ portfolio: [...this.state.portfolio, newPortfolioItem] });
               }
             ).catch ( 
-              () => alert("Oops! Something went wrong. For best results, try limiting the frequency at which you add stocks to your portfolio.")
+              () => alert("Error: Either your search term was invalid, or the request to add a stock was too frequent. Please try again.")
             )
         }
       )
       .catch ( 
-        () => alert("Oops! Something went wrong. For best results, try limiting the frequency at which you add stocks to your portfolio.")
+        () => alert("Error: Either your search term was invalid, or the request to add a stock was too frequent. Please try again.")
       )
   }
 
