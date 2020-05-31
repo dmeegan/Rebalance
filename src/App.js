@@ -40,30 +40,48 @@ class App extends React.Component {
     fetch(Search_API_Call)
       .then(
         (searchResponse) => {
+          // if (!searchResponse.ok) {
+          //   throw Error(searchResponse.statusText)
+          // }
           return searchResponse.json();
         }
       )
       .then(
         (searchData) => {
-          return stockToAdd= searchData["bestMatches"][0];
+          // if (!searchData.ok) {
+          //   throw new Error(searchData.statusText)
+          // }
+          return stockToAdd = searchData["bestMatches"][0];
         }
       )
       .then(
         (stockToAdd) => {
+          // if (!stockToAdd.ok) {
+          //   throw Error(stockToAdd.statusText)
+          // }
           let Quote_API_Call = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${stockToAdd["1. symbol"]}&interval=5min&apikey=${API_Key}&outputsize=compact`;
 
           fetch(Quote_API_Call)
             .then(
               (quoteResponse) => {
+                // if (!quoteResponse.ok) {
+                //   throw Error(quoteResponse.statusText)
+                // }
                 return quoteResponse.json();
               }
             )
             .then(
               (quoteData) => {
+                // if (!quoteData.ok) {
+                //   throw Error(quoteData.statusText)
+                // }
                 return currentPrice = +(quoteData["Global Quote"]["05. price"]);
               })
             .then(
               (currentPrice) => {
+                // if (!currentPrice.ok) {
+                //   throw Error(currentPrice.statusText)
+                // }
                 newPortfolioItem = {
                   id: newId,
                   symbol: stockToAdd["1. symbol"],
@@ -80,20 +98,25 @@ class App extends React.Component {
                 };
                 this.setState({ portfolio: [...this.state.portfolio, newPortfolioItem] });
               }
+            ).catch ( 
+              () => alert("Oops! Something went wrong. For best results, try limiting the frequency at which you add stocks to your portfolio.")
             )
         }
+      )
+      .catch ( 
+        () => alert("Oops! Something went wrong. For best results, try limiting the frequency at which you add stocks to your portfolio.")
       )
   }
 
   delStock = (id) => {
     let currentTotalAssets = 0;
     this.setState({
-      totalAssets: this.state.totalAssets - this.state.portfolio.find( portfolio => portfolio.id === id).marketValue,
+      totalAssets: this.state.totalAssets - this.state.portfolio.find(portfolio => portfolio.id === id).marketValue,
       portfolio: [...this.state.portfolio.filter(portfolio => portfolio.id !== id)].map(stock => {
         if (stock.id !== id) {
-        currentTotalAssets += stock.marketValue;
-        stock["currentPercentage"] = (100 * (stock.marketValue / currentTotalAssets)).toFixed(2);
-        } 
+          currentTotalAssets += stock.marketValue;
+          stock["currentPercentage"] = (100 * (stock.marketValue / currentTotalAssets)).toFixed(2);
+        }
         return stock;
       })
     }
@@ -104,34 +127,33 @@ class App extends React.Component {
 
   getQuantity = (id, e) => {
     let currentTotalAssets = 0;
+    let userQuantityInput = +e.target.value;
+    if (userQuantityInput < 0) {
+      userQuantityInput = 0;
+    }
     this.setState({ totalAssets: '' });
     this.setState({
       portfolio: this.state.portfolio.map(stock => {
         if (stock.id === id) {
-          stock["quantity"] = +e.target.value;
+          stock["quantity"] = +userQuantityInput;
           stock["marketValue"] = ((stock.quantity) * (stock.currentPrice)).toFixed(2)
+          stock["targetValue"] = ((stock.targetPercentage / 100) * (this.state.totalAssets)).toFixed(2);
+          stock["addedValue"] = +(stock.targetValue - stock.marketValue).toFixed(2);
+          stock["sellOrPurchase"] = Math.floor((stock.targetValue - stock.marketValue) / (+stock.currentPrice));
+          stock["costOrValue"] = (-1* stock.sellOrPurchase * stock.currentPrice).toFixed(2);
         };
         currentTotalAssets += +stock.marketValue;
         this.state.portfolio.map(stock => {
-          stock["currentPercentage"] = (100 * (stock.marketValue / currentTotalAssets)).toFixed(2);
+          stock["currentPercentage"] = +(100 * (+stock.marketValue / currentTotalAssets)).toFixed(2) || 0;
+          stock["targetValue"] = ((stock.targetPercentage / 100) * (this.state.totalAssets)).toFixed(2);
+          stock["addedValue"] = +(stock.targetValue - stock.marketValue).toFixed(2);
+          stock["sellOrPurchase"] = Math.floor((stock.targetValue - stock.marketValue) / (+stock.currentPrice));
+          stock["costOrValue"] = (-1* stock.sellOrPurchase * stock.currentPrice).toFixed(2);
         })
         return stock;
       }),
-      totalAssets: currentTotalAssets
+      totalAssets: currentTotalAssets.toFixed(2),
     })
-  }
-
-  calculateCurrentPercentage = (id) =>  {
-    console.log(this.state.totalAssets)
-    this.setState({
-      portfolio: this.state.portfolio.map(stock => {
-        if (stock.id === id) {
-          stock["currentPercentage"] = (stock.marketValue / this.state.totalAssets).toFixed(2)
-        }
-        return stock;
-      })
-    }
-    )
   }
 
   handleTargetPercentageInput = (id, e) => {
@@ -144,11 +166,11 @@ class App extends React.Component {
     this.setState({
       portfolio: this.state.portfolio.map(stock => {
         if (stock.id === id) {
-          stock["targetPercentage"] = userPercentageInput.toFixed(2);
+          stock["targetPercentage"] = userPercentageInput;
           stock["targetValue"] = ((stock.targetPercentage / 100) * (this.state.totalAssets)).toFixed(2);
           stock["addedValue"] = +(stock.targetValue - stock.marketValue).toFixed(2);
           stock["sellOrPurchase"] = Math.floor((stock.targetValue - stock.marketValue) / (+stock.currentPrice));
-          stock["costOrValue"] = (stock.sellOrPurchase * stock.currentPrice).toFixed(2);
+          stock["costOrValue"] = (-1* stock.sellOrPurchase * stock.currentPrice).toFixed(2);
         };
         return stock;
       })

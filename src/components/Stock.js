@@ -7,7 +7,7 @@ class Stock extends Component {
 
     render() {
       
-    const {id, symbol, name, currentPrice, marketValue, currentPercentage, targetPercentage, targetValue, addedValue, sellOrPurchase, costOrValue} = this.props.stock;
+    const {id, symbol, name, currentPrice, quantity, marketValue, currentPercentage, targetPercentage, targetValue, addedValue, sellOrPurchase, costOrValue} = this.props.stock;
         return (
             <tr>
                 <td>
@@ -20,7 +20,7 @@ class Stock extends Component {
                     {name}
                 </td>
                 <td>
-                    <FormControl type="number" min="0" className="table input" onChange={this.props.getQuantity.bind(this, id)}/>
+                    <FormControl type="number" min="0" className="table input" value={quantity} onChange={this.props.getQuantity.bind(this, id)}/>
                 </td>
                 <td>
                     {currentPrice}
@@ -32,7 +32,7 @@ class Stock extends Component {
                     {currentPercentage}
                 </td>
                 <td>
-                    <FormControl type="number" min="0" max="100" className="input" id="targetPercentageInput" onChange={this.props.handleTargetPercentageInput.bind(this, id)}/>
+                    <FormControl type="number" min="0" max="100" className="input" step="0.01" id="targetPercentageInput" value={targetPercentage} onChange={this.props.handleTargetPercentageInput.bind(this, id)}/>
                 </td>
                 <td>
                     {targetValue}
