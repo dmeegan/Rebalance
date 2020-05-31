@@ -105,8 +105,6 @@ class App extends React.Component {
     )
   }
 
-  // totalAssets: this.state.totalAssets - this.state.portfolio[this.state.portfolio.indexOf(id)].marketValue,
-
   getQuantity = (id, e) => {
     let currentTotalAssets = 0;
     let userQuantityInput = +e.target.value;
