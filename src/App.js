@@ -74,7 +74,6 @@ class App extends React.Component {
   }
 
   delStock = (id) => {
-    let assetsAccumulator = 0;
     let currentStock = this.state.portfolio.find(portfolio => portfolio.id === id)
     let currentMarketValue = (currentStock.currentPrice * currentStock.quantity).toFixed(2)
     this.setState({
@@ -144,7 +143,6 @@ class App extends React.Component {
           addedAssets={this.state.addedAssets}
           newTotalAssets={this.state.newTotalAssets}
           delStock={this.delStock}
-          currentTotalAssets={this.state.currentTotalAssets}
           portfolio={this.state.portfolio}
           calculateMarketValue={this.calculateMarketValue}
           calculateTotalAssets={this.calculateTotalAssets}
