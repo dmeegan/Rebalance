@@ -23,20 +23,16 @@ class Portfolio extends Component {
                     getQuantity={this.props.getQuantity}
                     delStock={this.props.delStock}
                     currentTotalAssets={this.props.currentTotalAssets}
+                    newTotalAssets={this.props.newTotalAssets}
                     stock={stock}
-                    calculateMarketValue={this.props.calculateMarketValue}
-                    calculatecurrentTotalAssets={this.props.calculatecurrentTotalAssets}
-                    calculateCurrentPercentage={this.props.calculateCurrentPercentage}
                     handleTargetPercentageInput={this.props.handleTargetPercentageInput}
-                    calculateTargetValue={this.props.calculateTargetValue}
-                    calculateSellOrPurchase={this.props.calculateSellOrPurchase}
                 />
             )) }
-            </tbody> 
-            <tfoot><tr><th>Total</th><td></td><td></td><td></td><td></td><td>{this.props.currentTotalAssets}</td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tfoot>
-            {/* <CurrentTotalAssets currentTotalAssets={this.props.currentTotalAssets}/>
+            {/* <tfoot><tr><th>Total</th><td></td><td></td><td></td><td></td><td>{this.props.currentTotalAssets}</td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tfoot> */}
+            <CurrentTotalAssets currentTotalAssets={this.props.currentTotalAssets}/>
             <AddedAssets addedAssets={this.props.addedAssets} handleAddedAssetsInput={this.props.handleAddedAssetsInput}/>
-            <NewTotalAssets newTotalAssets={this.props.newTotalAssets}/> */}
+            <NewTotalAssets newTotalAssets={this.props.newTotalAssets}/>
+            </tbody> 
             </Table>
             </div>
         )

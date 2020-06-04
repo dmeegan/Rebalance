@@ -7,11 +7,20 @@ class Stock extends Component {
 
     render() {
       
-    const {id, symbol, name, currentPrice, quantity, marketValue, currentPercentage, targetPercentage, targetValue, addedValue, sellOrPurchase, costOrValue} = this.props.stock;
+    const {id, symbol, name, currentPrice, quantity, targetPercentage} = this.props.stock;
+    const {currentTotalAssets, delStock, getQuantity, newTotalAssets} = this.props
+
+    const marketValue = (currentPrice * quantity).toFixed(2);
+    const currentPercentage = currentTotalAssets > 0 ? ((100 * (marketValue / currentTotalAssets)).toFixed(2)) : 0;
+    const targetValue = newTotalAssets > 0 ? (((targetPercentage / 100) * (newTotalAssets)).toFixed(2)) : 0;
+    const addedValue = newTotalAssets > 0 ? ((targetValue - marketValue).toFixed(2)) : 0;
+    const sellOrPurchase = (addedValue > 0 ? Math.floor((addedValue) / (currentPrice)) : Math.ceil((addedValue) / (currentPrice)));
+    const costOrValue = ((sellOrPurchase * currentPrice).toFixed(2));
+      
         return (
             <tr>
                 <td>
-                    <Button variant="primary" type="button" className="removeStockButton" onClick={this.props.delStock.bind(this, id)}>Remove</Button>
+                    <Button variant="primary" type="button" className="removeStockButton" onClick={delStock.bind(this, id)}>Remove</Button>
                 </td>
                 <td>
                     {symbol}
@@ -20,7 +29,7 @@ class Stock extends Component {
                     {name}
                 </td>
                 <td>
-                    <FormControl type="number" min="0" className="table input" value={quantity} onChange={this.props.getQuantity.bind(this, id)}/>
+                    <FormControl type="number" min="0" className="table input" value={quantity} onChange={getQuantity.bind(this, id)}/>
                 </td>
                 <td>
                     {currentPrice}

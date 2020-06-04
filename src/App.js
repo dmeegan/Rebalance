@@ -12,7 +12,7 @@ class App extends React.Component {
     currentTotalAssets: 0,
     portfolio: [
     ], 
-    addedValue: 0,
+    addedAssets: 0,
     newTotalAssets: 0
   }
 
@@ -59,13 +59,7 @@ class App extends React.Component {
                   name: stockToAdd["2. name"],
                   currentPrice: currentPrice.toFixed(2),
                   quantity: '',
-                  marketValue: '',
-                  currentPercentage: '',
                   targetPercentage: '',
-                  targetValue: '',
-                  addedValue: '',
-                  sellOrPurchase: '',
-                  costOrValue: '',
                 };
                 this.setState({ portfolio: [...this.state.portfolio, newPortfolioItem] });
               }
@@ -81,18 +75,14 @@ class App extends React.Component {
 
   delStock = (id) => {
     let assetsAccumulator = 0;
+    let currentStock = this.state.portfolio.find(portfolio => portfolio.id === id)
+    let currentMarketValue = (currentStock.currentPrice * currentStock.quantity).toFixed(2)
     this.setState({
-      currentTotalAssets: this.state.currentTotalAssets - this.state.portfolio.find(portfolio => portfolio.id === id).marketValue,
-      portfolio: [...this.state.portfolio.filter(portfolio => portfolio.id !== id)].map(stock => {
-        if (stock.id !== id) {
-          assetsAccumulator += stock.marketValue;
-          stock["currentPercentage"] = (100 * (stock.marketValue / assetsAccumulator)).toFixed(2);
-        }
-        return stock;
+      currentTotalAssets: this.state.currentTotalAssets - currentMarketValue,
+      newTotalAssets: this.state.newTotalAssets - currentMarketValue,
+      portfolio: this.state.portfolio.filter(stock => stock.id !== id)
       })
     }
-    )
-  }
 
   getQuantity = (id, e) => {
     let assetsAccumulator = 0;
@@ -105,24 +95,12 @@ class App extends React.Component {
       portfolio: this.state.portfolio.map(stock => {
         if (stock.id === id) {
           stock["quantity"] = +userQuantityInput;
-          stock["marketValue"] = ((stock.quantity) * (stock.currentPrice)).toFixed(2)
-          stock["targetValue"] = ((stock.targetPercentage / 100) * (this.state.currentTotalAssets)).toFixed(2);
-          stock["addedValue"] = +(stock.targetValue - stock.marketValue).toFixed(2);
-          stock["sellOrPurchase"] =  stock.addedValue > 0 ? Math.floor((stock.addedValue) / (stock.currentPrice)) : Math.ceil((stock.addedValue) / (stock.currentPrice));
-          stock["costOrValue"] = (stock.sellOrPurchase * stock.currentPrice).toFixed(2);
         };
-        assetsAccumulator += +stock.marketValue;
-        this.state.portfolio.map(stock => {
-          stock["currentPercentage"] = +(100 * (+stock.marketValue / assetsAccumulator)).toFixed(2) || 0;
-          stock["targetValue"] = ((stock.targetPercentage / 100) * (this.state.currentTotalAssets)).toFixed(2);
-          stock["addedValue"] = +(stock.targetValue - stock.marketValue).toFixed(2);
-          stock["sellOrPurchase"] = stock.addedValue > 0 ? Math.floor((stock.addedValue) / (stock.currentPrice)) : Math.ceil((stock.addedValue) / (stock.currentPrice));
-          stock["costOrValue"] = (stock.sellOrPurchase * stock.currentPrice).toFixed(2);
-        })
+        assetsAccumulator += (stock.currentPrice * stock.quantity);
         return stock;
-      }),
-      currentTotalAssets: assetsAccumulator.toFixed(2),
-      newTotalAssets: this.state.currentTotalAssets + this.state.addedValue
+      }), 
+      currentTotalAssets: +assetsAccumulator.toFixed(2),
+      newTotalAssets: (this.state.addedAssets + assetsAccumulator).toFixed(2)
     })
   }
 
@@ -137,13 +115,22 @@ class App extends React.Component {
       portfolio: this.state.portfolio.map(stock => {
         if (stock.id === id) {
           stock["targetPercentage"] = userPercentageInput;
-          stock["targetValue"] = ((stock.targetPercentage / 100) * (this.state.currentTotalAssets)).toFixed(2);
-          stock["addedValue"] = +(stock.targetValue - stock.marketValue).toFixed(2);
-          stock["sellOrPurchase"] =  stock.addedValue > 0 ? Math.floor((stock.addedValue) / (stock.currentPrice)) : Math.ceil((stock.addedValue) / (stock.currentPrice));
-          stock["costOrValue"] = (-1 * stock.sellOrPurchase * stock.currentPrice).toFixed(2);
         };
         return stock;
       })
+    })
+  }
+
+  handleAddedAssetsInput = (e) => {
+    let userAddedAssetsInput = +e.target.value;
+    if (userAddedAssetsInput < 0) {
+      userAddedAssetsInput = 0
+    }
+    console.log(this.state.currentTotalAssets)
+    console.log(userAddedAssetsInput)
+    this.setState({
+      addedAssets: userAddedAssetsInput,
+      newTotalAssets: +this.state.currentTotalAssets + userAddedAssetsInput
     })
   }
 
@@ -153,6 +140,9 @@ class App extends React.Component {
         <AddStock addStock={this.addStock} />
         <Portfolio
           getQuantity={this.getQuantity}
+          currentTotalAssets={this.state.currentTotalAssets}
+          addedAssets={this.state.addedAssets}
+          newTotalAssets={this.state.newTotalAssets}
           delStock={this.delStock}
           currentTotalAssets={this.state.currentTotalAssets}
           portfolio={this.state.portfolio}
@@ -162,6 +152,7 @@ class App extends React.Component {
           handleTargetPercentageInput={this.handleTargetPercentageInput}
           calculateTargetValue={this.calculateTargetValue}
           calculateSellOrPurchase={this.calculateSellOrPurchase}
+          handleAddedAssetsInput={this.handleAddedAssetsInput}
         />
       </div>
     )
