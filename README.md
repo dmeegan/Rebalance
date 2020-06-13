@@ -1,1 +1,1 @@
-![](../media/AddStockToPortfolio.webp)
+![](./media/AddStockToPortfolio.webp)
