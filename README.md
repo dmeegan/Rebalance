@@ -39,3 +39,7 @@ Oops, I added the wrong stock to my portfolio! No worries, Rebalance allows you 
 * Javascript (ES6)
 * HTML5
 * CSS3
+
+## Authors
+
+* **Daniel Meegan** - [dmeegan](https://github.com/dmeegan)
