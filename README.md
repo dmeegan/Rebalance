@@ -1,3 +1,7 @@
+# Rebalance
+
+
+
 ## 1. Add Stock to your Portfolio
 
 Input a stock symbol, company name or keyword into the search bar and click the Add Stock button. Using the Alpha Vantage Search Endpoint API, Rebalance will return the stock that best matches your input. After determining the most appropriate stock associated with your input, the program then uses the Alpha Vantage Global Quote API to return that stock's current price. The stock symbol, stock name, and current price will be added to your portfolio.
