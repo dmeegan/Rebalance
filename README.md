@@ -1,1 +1,1 @@
-![](name-of-giphy.gif)
+![](../media/AddStockToPortfolio.webp)
