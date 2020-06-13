@@ -34,8 +34,8 @@ Oops, I added the wrong stock to my portfolio! No worries, Rebalance allows you 
 ![Remove Stock from Portfolio](./media/RemoveStock.gif)
 
 ## Built With
-* ![React.js] (https://reactjs.org/) - A JavaScript library for building user interfaces
-* ![Bootstrap for React] (https://react-bootstrap.github.io/) - The most popular front-end framework Rebuilt for React.
+* [React.js](https://reactjs.org/) - A JavaScript library for building user interfaces
+* [Bootstrap for React](https://react-bootstrap.github.io/) - The most popular front-end framework Rebuilt for React.
 * Javascript (ES6)
 * HTML5
 * CSS3
