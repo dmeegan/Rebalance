@@ -1,5 +1,6 @@
 # Rebalance
 
+Rebalance is an app develoed with React.js that helps you re-balance your stock portfolio.
 
 
 ## 1. Add Stock to your Portfolio
