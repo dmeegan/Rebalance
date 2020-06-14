@@ -1,6 +1,6 @@
 # Rebalance
 
-Rebalance is an app develoed with React.js that helps you re-balance your stock portfolio. See how it works below!
+Rebalance is an app developed with React.js that helps you re-balance your stock portfolio. See how it works below!
 
 
 ## 1. Add Stock to your Portfolio
@@ -29,14 +29,14 @@ Re-balancing a stock portfolio is really only useful to you if you have a target
 
 ## 5. Remove Stock from Portfolio
 
-Oops, I added the wrong stock to my portfolio! No worries, Rebalance allows you to remove a stock from your portfolio. WHen you remove a stock from your portfolio, the program will automatically adjust your Total Asset values, your current percentages, and your target values accordingly.
+Oops, I added the wrong stock to my portfolio! No worries, Rebalance allows you to remove a stock from your portfolio. When you remove a stock from your portfolio, the program will automatically adjust your Total Asset values, your current percentages, and your target values accordingly.
 
 ![Remove Stock from Portfolio](./media/RemoveStock.gif)
 
 ## Built With
 * [React.js](https://reactjs.org/) - A JavaScript library for building user interfaces
 * [Bootstrap for React](https://react-bootstrap.github.io/) - The most popular front-end framework Rebuilt for React.
-* Javascript (ES6)
+* JavaScript (ES6)
 * HTML5
 * CSS3
 
