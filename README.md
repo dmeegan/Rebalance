@@ -17,7 +17,7 @@ Once a stock has been added to your portfolio, Rebalance allows you to set the c
 
 ## 3. Add Asset Value
 
-OK, but what if I want to add to my investments? Rebalance allows you to Add Asset value on top of the Current Total Asset value of your portfolio. When you add asset value to your account, the program will calculate your New Total Assets and the target percentages will be that you set for each stock will be based on the New Total Assets.
+OK, but what if I want to add to my investments? Rebalance allows you to Add Asset value on top of the Current Total Asset value of your portfolio. When you add asset value to your portfolio, the program will calculate your New Total Assets and the target percentages will be that you set for each stock will be based on the New Total Assets.
 
 ![Add Asset Value](./media/AddAssets.gif)
 
