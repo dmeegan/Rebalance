@@ -9,7 +9,7 @@ Input a stock symbol, company name or keyword into the search bar and click the 
 
 ![Add Stock to Portfolio](./media/AddStockToPortfolio.gif)
 
-## 2. Set Current Percentages
+## 2. Set Current Quantity
 
 Once a stock has been added to your portfolio, Rebalance allows you to set the current quantity of shares of that stock that you own. When you set the current quantity, the program will automatically calculate the total market value of that stock, the Current Total Asset value of your portfolio, and the current percentage of your portfolio that each stock makes up.
 
