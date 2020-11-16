@@ -22,7 +22,7 @@ class AddStock extends Component {
     render() {
         return (
             <Form className="customForm" onSubmit={this.handleSubmit}>
-            <InputGroup controlId="addStockForm">
+            <InputGroup>
                 <InputGroup.Prepend>
                     <Button variant="outline-primary" type="submit">Add Stock</Button>
                 </InputGroup.Prepend>
