@@ -12,7 +12,7 @@ class Portfolio extends Component {
     render() {
         if (this.props.portfolio.length > 0) {
         return (
-            <div>
+            <div className="portfolioTableContainer">
             <Table striped bordered hover variant="dark">
                          <thead><tr><th scope="col"></th><th scope="col">Symbol</th><th scope="col">Stock Name</th><th scope="col">Quantity</th><th scope="col">Current Price</th><th scope="col">Market Value</th><th scope="col">Current Percentage</th><th scope="col">Target Percentage</th><th scope="col">Target Value</th><th scope="col">Added Value</th><th scope="col">Sell or Purchase</th><th scope="col">Cost or Value</th></tr></thead>
             <tbody>

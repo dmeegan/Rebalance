@@ -29,7 +29,7 @@ class Stock extends Component {
                     {name}
                 </td>
                 <td>
-                    <FormControl type="number" min="0" className="table input" value={quantity} onChange={getQuantity.bind(this, id)}/>
+                    <FormControl type="number" min="0" className="tableInput" value={quantity} onChange={getQuantity.bind(this, id)}/>
                 </td>
                 <td>
                     {currentPrice}

@@ -66,8 +66,8 @@ class App extends React.Component {
                   symbol: stockToAdd["1. symbol"],
                   name: stockToAdd["2. name"],
                   currentPrice: currentPrice.toFixed(2),
-                  quantity: '',
-                  targetPercentage: '',
+                  quantity: 0,
+                  targetPercentage: '0
                 };
                 this.setState({ portfolio: [...this.state.portfolio, newPortfolioItem] });
               }
