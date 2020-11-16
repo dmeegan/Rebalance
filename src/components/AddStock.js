@@ -21,10 +21,10 @@ class AddStock extends Component {
 
     render() {
         return (
-            <Form className="addStockForm" onSubmit={this.handleSubmit}>
-            <InputGroup>
+            <Form className="customForm" onSubmit={this.handleSubmit}>
+            <InputGroup controlId="addStockForm">
                 <InputGroup.Prepend>
-                    <Button variant="outline-secondary" type="submit">Add Stock</Button>
+                    <Button variant="outline-primary" type="submit">Add Stock</Button>
                 </InputGroup.Prepend>
                 <FormControl placeholder="AMZN..." required onSubmit={this.handleSubmit} type="text" value={this.state.userSymbolInput} onChange={this.handleUserInput}/>
             </InputGroup>

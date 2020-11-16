@@ -1,6 +1,14 @@
 import React from 'react';
 import Portfolio from './components/Portfolio';
 import AddStock from './components/AddStock';
+import TopNav from './components/TopNav';
+import SignIn from './components/SignIn';
+
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch
+} from "react-router-dom";
 // import AcceptUserStockSymbol from './acceptUserStockSymbol.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -11,7 +19,7 @@ class App extends React.Component {
   state = {
     currentTotalAssets: 0,
     portfolio: [
-    ], 
+    ],
     addedAssets: 0,
     newTotalAssets: 0
   }
@@ -80,8 +88,8 @@ class App extends React.Component {
       currentTotalAssets: this.state.currentTotalAssets - currentMarketValue,
       newTotalAssets: this.state.newTotalAssets - currentMarketValue,
       portfolio: this.state.portfolio.filter(stock => stock.id !== id)
-      })
-    }
+    })
+  }
 
   getQuantity = (id, e) => {
     let assetsAccumulator = 0;
@@ -97,7 +105,7 @@ class App extends React.Component {
         };
         assetsAccumulator += (stock.currentPrice * stock.quantity);
         return stock;
-      }), 
+      }),
       currentTotalAssets: +assetsAccumulator.toFixed(2),
       newTotalAssets: (this.state.addedAssets + assetsAccumulator).toFixed(2)
     })
@@ -136,22 +144,30 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <AddStock addStock={this.addStock} />
-        <Portfolio
-          getQuantity={this.getQuantity}
-          currentTotalAssets={this.state.currentTotalAssets}
-          addedAssets={this.state.addedAssets}
-          newTotalAssets={this.state.newTotalAssets}
-          delStock={this.delStock}
-          portfolio={this.state.portfolio}
-          calculateMarketValue={this.calculateMarketValue}
-          calculateTotalAssets={this.calculateTotalAssets}
-          calculateCurrentPercentage={this.calculateCurrentPercentage}
-          handleTargetPercentageInput={this.handleTargetPercentageInput}
-          calculateTargetValue={this.calculateTargetValue}
-          calculateSellOrPurchase={this.calculateSellOrPurchase}
-          handleAddedAssetsInput={this.handleAddedAssetsInput}
-        />
+        <Router>
+          <TopNav />
+          <Route path="/signIn">
+            <SignIn />
+          </Route>
+          <Route path="/Rebalance">
+            <AddStock addStock={this.addStock} />
+            <Portfolio
+              getQuantity={this.getQuantity}
+              currentTotalAssets={this.state.currentTotalAssets}
+              addedAssets={this.state.addedAssets}
+              newTotalAssets={this.state.newTotalAssets}
+              delStock={this.delStock}
+              portfolio={this.state.portfolio}
+              calculateMarketValue={this.calculateMarketValue}
+              calculateTotalAssets={this.calculateTotalAssets}
+              calculateCurrentPercentage={this.calculateCurrentPercentage}
+              handleTargetPercentageInput={this.handleTargetPercentageInput}
+              calculateTargetValue={this.calculateTargetValue}
+              calculateSellOrPurchase={this.calculateSellOrPurchase}
+              handleAddedAssetsInput={this.handleAddedAssetsInput}
+            />
+          </Route>
+        </Router>
       </div>
     )
   }
