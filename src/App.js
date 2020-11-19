@@ -6,8 +6,7 @@ import SignIn from './components/SignIn';
 
 import {
   BrowserRouter as Router,
-  Route,
-  Switch
+  Route
 } from "react-router-dom";
 // import AcceptUserStockSymbol from './acceptUserStockSymbol.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
