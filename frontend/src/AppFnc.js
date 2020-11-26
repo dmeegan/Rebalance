@@ -18,63 +18,6 @@ import './App.css';
 
 export default function App() {
 
- 
-
-  // addStock = (userSymbolInput) => {
-  //   let newPortfolioItem = {};
-  //   let newId = this.state.portfolio.length + 1
-  //   let API_Key = process.env.API_Key;
-  //   let Search_API_Call = `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${userSymbolInput}&apikey=${API_Key}`;
-
-
-  //   fetch(Search_API_Call)
-  //     .then(
-  //       (searchResponse) => {
-  //         return searchResponse.json();
-  //       }
-  //     )
-  //     .then(
-  //       (searchData) => {
-  //         // eslint-disable-next-line no-undef
-  //         return stockToAdd = searchData["bestMatches"][0];
-  //       }
-  //     )
-  //     .then(
-  //       (stockToAdd) => {
-  //         let Quote_API_Call = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${stockToAdd["1. symbol"]}&interval=5min&apikey=${API_Key}&outputsize=compact`;
-  //         fetch(Quote_API_Call)
-  //           .then(
-  //             (quoteResponse) => {
-  //               return quoteResponse.json();
-  //             }
-  //           )
-  //           .then(
-  //             (quoteData) => {
-  //               // eslint-disable-next-line no-undef
-  //               return currentPrice = +(quoteData["Global Quote"]["05. price"]);
-  //             })
-  //           .then(
-  //             (currentPrice) => {
-  //               newPortfolioItem = {
-  //                 id: newId,
-  //                 symbol: stockToAdd["1. symbol"],
-  //                 name: stockToAdd["2. name"],
-  //                 currentPrice: currentPrice.toFixed(2),
-  //                 quantity: 0,
-  //                 targetPercentage: 0
-  //               };
-  //               this.setState({ portfolio: [...this.state.portfolio, newPortfolioItem] });
-  //             }
-  //           ).catch(
-  //             () => alert("Error: Either your search term was invalid, or the request to add a stock was too frequent. Please try again.")
-  //           )
-  //       }
-  //     )
-  //     .catch(
-  //       () => alert("Error: Either your search term was invalid, or the request to add a stock was too frequent. Please try again.")
-  //     )
-  // }
-
  const delStock = (id) => {
     let currentStock = state.portfolio.find(portfolio => portfolio.id === id)
     let currentMarketValue = (currentStock.currentPrice * currentStock.quantity).toFixed(2)
