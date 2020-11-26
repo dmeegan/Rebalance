@@ -4,7 +4,7 @@ import AddStock from './components/AddStock';
 import TopNav from './components/TopNav';
 import SignIn from './components/SignIn';
 import Register from './components/Register';
-
+import dotenv from 'dotenv';
 import {
   BrowserRouter as Router,
   Route
@@ -14,6 +14,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 // import FetchStockSymbol from './fetchStockSymbol.js';
 
+dotenv.config({ path: '../../backend/.env' });
 
 class App extends React.Component {
   state = {
@@ -25,12 +26,13 @@ class App extends React.Component {
   }
 
   addStock = (userSymbolInput) => {
-    let newPortfolioItem = {};
+    // eslint-disable-next-line no-unused-vars
     let stockToAdd = '';
+    // eslint-disable-next-line no-unused-vars
     let currentPrice = '';
-    let stockTitle = '';
+    let newPortfolioItem = {};
     let newId = this.state.portfolio.length + 1
-    let API_Key = 'WTIDRPP8PEFL74TS';
+    let API_Key = process.env.API_Key;
     let Search_API_Call = `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${userSymbolInput}&apikey=${API_Key}`;
 
 

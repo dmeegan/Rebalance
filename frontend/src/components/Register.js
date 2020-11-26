@@ -8,12 +8,12 @@ export default function Register() {
     const registerUser = (e) => {
         e.preventDefault()
         let request = {
-            firstName:document.getElementById('RegisterFormFirstName').value,
-            lastName:document.getElementById('RegisterFormLastName').value,
-            email:document.getElementById('RegisterFormEmail').value,
-            password:document.getElementById('RegisterFormPassword').value,
+            first_name : document.getElementById('RegisterFormFirstName').value,
+            last_name : document.getElementById('RegisterFormLastName').value,
+            email : document.getElementById('RegisterFormEmail').value,
+            password : document.getElementById('RegisterFormPassword').value,
         }
-        axios.post('http://localhost:3000/api/register', request)
+        axios.post('http://localhost:3000/register', request)
         .then( resp => {
             console.log('post recieved')
         })
