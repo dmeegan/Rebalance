@@ -1,36 +1,38 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Button, InputGroup, Form, FormControl } from 'react-bootstrap';
+import { GlobalContext } from '../context/GlobalState';
 import axios from 'axios';
 
 export default function AddStock() {
 
     const [userSymbolInput, setUserSymbolInput] = useState('');
+    const { addStock, portfolio } = useContext(GlobalContext);
 
     const handleUserInput = (e) => {
         setUserSymbolInput(e.target.value)
     }
 
+    const fetchStock = (symbolToFetch) => {
+            const request = {
+                symbolToFetch: symbolToFetch,
+                currentPortfolioLength: portfolio.length,
+            }
+            axios.post('http://localhost:3000/addstock', request)
+                .then(response => {
+                    console.log(response.data);
+                    addStock(response.data);
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+            };
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        addStock(userSymbolInput.replace(" ", ""));
+        const symbolToFetch = userSymbolInput.replace(" ", "");
+        fetchStock(symbolToFetch)
         setUserSymbolInput('');
     };
-
-    const addStock = (userSymbolInput) => {
-        let currentPortfolioLength = this.state.portfolio.length;
-        
-        let request = {
-            user_symbol_input : userSymbolInput,
-            current_portfolio_length : currentPortfolioLength
-        }
-        axios.post('http://localhost:3000/addStock', request)
-        .then( response => {
-            setState({ portfolio: [...state.portfolio, response] });
-        })
-        .catch( err => {
-            console.log(err)
-        })
-      }
 
     return (
         <div className="addStockFormContainer">

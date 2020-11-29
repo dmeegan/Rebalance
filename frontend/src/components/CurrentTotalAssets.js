@@ -1,12 +1,11 @@
-import React, { Component } from 'react';
+import React, { useContext } from 'react';
+import { GlobalContext } from '../context/GlobalState';
 
-class CurrentTotalAssets extends Component {
-    
-    render() {
+export default function CurrentTotalAssets() {
+
+        const { currentTotalAssets } = useContext(GlobalContext);
+
         return (
-            <tr><th colSpan="2">Current Total Assets</th><td colSpan="10">{this.props.currentTotalAssets}</td></tr>  
-            )
-    };
-}
-
-export default CurrentTotalAssets;
+                <tr><th colSpan="2">Current Total Assets</th><td colSpan="10">{currentTotalAssets}</td></tr>
+        );
+};

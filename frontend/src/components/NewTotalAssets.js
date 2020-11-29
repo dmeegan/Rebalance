@@ -1,13 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class NewTotalAssets extends Component {
-    
-    render() {
+export default function NewTotalAssets() {
 
-        return (
-            <tr><th colSpan="2">New Total Assets</th><td colSpan="10">{this.props.newTotalAssets}</td></tr>  
-            )
-    };
+    return (
+        <tr><th colSpan="2">New Total Assets</th><td colSpan="10">{this.props.newTotalAssets}</td></tr>
+    )
 }
-
-export default NewTotalAssets;

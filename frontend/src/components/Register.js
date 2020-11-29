@@ -8,14 +8,14 @@ export default function Register() {
     const registerUser = (e) => {
         e.preventDefault()
         let request = {
-            first_name : document.getElementById('RegisterFormFirstName').value,
-            last_name : document.getElementById('RegisterFormLastName').value,
+            firstName : document.getElementById('RegisterFormFirstName').value,
+            lastName : document.getElementById('RegisterFormLastName').value,
             email : document.getElementById('RegisterFormEmail').value,
             password : document.getElementById('RegisterFormPassword').value,
         }
         axios.post('http://localhost:3000/register', request)
         .then( resp => {
-            console.log('post recieved')
+            console.log('post received')
         })
         .catch( err => {
             console.log(err)

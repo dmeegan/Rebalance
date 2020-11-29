@@ -5,6 +5,8 @@ const { auth } = require('express-openid-connect');
 const { check, validationResult } = require('express-validator');
 const { response } = require("express");
 const dbServices = require('./dbservice');
+const cors = require('cors');
+const fetch = require('node-fetch');
 
 const db = dbServices.getDbServiceInstance();
 
@@ -13,13 +15,14 @@ dotenv.config({path: './.env'});
 
 const app = express();
 
+app.use(cors())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended : false}));
 
 
 //registerUser
 app.post('/register', (req, res) => {
-    const { first_name, last_name, email, password } = req.body;
+    const { firstName, lastName, email, password } = req.body;
     const result = db.registerUser(first_name, last_name, email, password);
 
     result
@@ -45,7 +48,7 @@ app.post('/register', (req, res) => {
 // })
 
 //read
-app.get('./getPortfolio', (req, res) => {
+app.get('/getPortfolio', (req, res) => {
     dbServices.get
     res.json({
         success: true
@@ -65,14 +68,12 @@ app.get('./getPortfolio', (req, res) => {
 //   })
 // );
 
-app.post('./addStock'), (req, res) => {
-    const { userSymbolInput, currentPortfolioLength } = req.body;
-    let newPortfolioItem = {};
+//addStock
+app.post('/addstock', (req, res) => {
+    const { symbolToFetch, currentPortfolioLength } = req.body;
     let newId = currentPortfolioLength + 1;
-    let API_Key = process.env.API_Key;
-    let Search_API_Call = `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${userSymbolInput}&apikey=${API_Key}`;
-
-
+    let API_KEY = process.env.API_KEY;
+    let Search_API_Call = `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${symbolToFetch}&apikey=${API_KEY}`;
     fetch(Search_API_Call)
       .then(
         (searchResponse) => {
@@ -81,13 +82,12 @@ app.post('./addStock'), (req, res) => {
       )
       .then(
         (searchData) => {
-          // eslint-disable-next-line no-undef
           return stockToAdd = searchData["bestMatches"][0];
         }
       )
       .then(
         (stockToAdd) => {
-          let Quote_API_Call = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${stockToAdd["1. symbol"]}&interval=5min&apikey=${API_Key}&outputsize=compact`;
+          let Quote_API_Call = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${stockToAdd["1. symbol"]}&interval=5min&apikey=${API_KEY}&outputsize=compact`;
           fetch(Quote_API_Call)
             .then(
               (quoteResponse) => {
@@ -96,7 +96,6 @@ app.post('./addStock'), (req, res) => {
             )
             .then(
               (quoteData) => {
-                // eslint-disable-next-line no-undef
                 return currentPrice = +(quoteData["Global Quote"]["05. price"]);
               })
             .then(
@@ -109,17 +108,17 @@ app.post('./addStock'), (req, res) => {
                   quantity: 0,
                   targetPercentage: 0
                 };
-                return newPortfolioItem;
+                res.send(newPortfolioItem);
               }
             ).catch(
-              () => alert("Error: Either your search term was invalid, or the request to add a stock was too frequent. Please try again.")
+              () => res.send("Error: Either your search term was invalid, or the request to add a stock was too frequent. Please try again.")
             )
         }
       )
       .catch(
-        () => alert("Error: Either your search term was invalid, or the request to add a stock was too frequent. Please try again.")
+        () => res.send("Error: Either your search term was invalid, or the request to add a stock was too frequent. Please try again.")
       )
-  }
+  });
 
 // app.get('/', (req, res) => {
 //     res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');

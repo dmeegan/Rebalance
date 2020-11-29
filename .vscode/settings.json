@@ -1,3 +1,12 @@
 {
-    "git.ignoreLimitWarning": true
+    "git.ignoreLimitWarning": true,
+    "cSpell.ignoreWords": [
+        "addstock",
+        "apikey",
+        "dbservice",
+        "oidc",
+        "openid",
+        "outputsize",
+        "rebalance"
+    ]
 }
