@@ -9,8 +9,7 @@ import { GlobalContext } from '../context/GlobalState';
 
 export default function Portfolio() {
 
-    const { portfolio, currentTotalAssets, addedAssets, newTotalAssets } = useContext(GlobalContext);
-    // const {handleAddedAssetsInput} = useContext(GlobalContext);
+    const { portfolio } = useContext(GlobalContext);
 
     if (portfolio.length > 0) {
         return (
@@ -22,17 +21,12 @@ export default function Portfolio() {
                             portfolio.map((stock) => (
                                 <Stock
                                     key={stock.id}
-                                    // getQuantity={this.props.getQuantity}
-                                    // delStock={this.props.delStock}
-                                    // currentTotalAssets={this.props.currentTotalAssets}
-                                    // newTotalAssets={this.props.newTotalAssets}
                                     stock={stock}
-                                // handleTargetPercentageInput={this.props.handleTargetPercentageInput}
                                 />
                             ))}
-                        {/* <CurrentTotalAssets currentTotalAssets={currentTotalAssets} /> */}
-                        {/* <AddedAssets addedAssets={addedAssets} handleAddedAssetsInput={handleAddedAssetsInput}}/> */}
-                        {/* <NewTotalAssets newTotalAssets={newTotalAssets} /> */}
+                        <CurrentTotalAssets />
+                        <AddedAssets />
+                        <NewTotalAssets />
                     </tbody>
                 </Table>
             </div>

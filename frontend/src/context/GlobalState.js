@@ -52,6 +52,16 @@ export const GlobalProvider = ({ children }) => {
     })
   }
 
+  function handleAddedAssetsInput(e) {
+    let userAddedAssetsInput = +e.target.value;
+    if (userAddedAssetsInput < 0) {
+      userAddedAssetsInput = 0
+    }
+    dispatch({
+      type: 'HANDLE_ADDED_ASSET_INPUT',
+      payload: userAddedAssetsInput
+    })
+  }
 
   return (<GlobalContext.Provider value={{
     currentTotalAssets: state.currentTotalAssets,
@@ -61,7 +71,8 @@ export const GlobalProvider = ({ children }) => {
     delStock,
     addStock,
     handleQuantityInput,
-    handleTargetPercentageInput
+    handleTargetPercentageInput,
+    handleAddedAssetsInput
   }}>
     {children}
   </GlobalContext.Provider>);

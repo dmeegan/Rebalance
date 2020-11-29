@@ -22,7 +22,7 @@ export default function AddStock() {
                     addStock(response.data);
                 })
                 .catch(err => {
-                    console.log(err.data);
+                    console.log(err);
                 })
             };
 

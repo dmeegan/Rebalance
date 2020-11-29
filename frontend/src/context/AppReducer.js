@@ -40,7 +40,15 @@ export default function AppReducer(state, action) {
                         stock["targetPercentage"] = action.payload.userPercentageInput;
                     };
                     return stock;
-                })};
+                })
+            };
+
+        case 'HANDLE_ADDED_ASSET_INPUT':
+            return {
+                ...state,
+                addedAssets: action.payload,
+                newTotalAssets: +state.currentTotalAssets + action.payload
+            };
 
         default:
             return state;

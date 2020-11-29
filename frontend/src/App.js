@@ -16,19 +16,6 @@ import './App.css';
 
 export default function App() {
 
-  
-
-  //   const handleAddedAssetsInput = (e) => {
-  //     let userAddedAssetsInput = +e.target.value;
-  //     if (userAddedAssetsInput < 0) {
-  //       userAddedAssetsInput = 0
-  //     }
-  //     setState({
-  //       addedAssets: userAddedAssetsInput,
-  //       newTotalAssets: +state.currentTotalAssets + userAddedAssetsInput
-  //     })
-  //   }
-
   return (
     <GlobalProvider>
       <Router>
