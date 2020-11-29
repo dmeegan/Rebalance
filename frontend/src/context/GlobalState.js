@@ -27,6 +27,31 @@ export const GlobalProvider = ({ children }) => {
     })
   }
 
+  function handleQuantityInput(e, id) {
+    let userQuantityInput = +e.target.value;
+    if (userQuantityInput < 0) {
+      userQuantityInput = 0;
+    }
+    dispatch({
+      type: 'HANDLE_QUANTITY_INPUT',
+      payload: { id, userQuantityInput }
+    })
+  }
+
+  function handleTargetPercentageInput(e, id) {
+    console.log(e.target.value, id)
+    let userPercentageInput = +(e.target.value);
+    if (userPercentageInput > 100) {
+      userPercentageInput = 100
+    } else if (userPercentageInput < 0) {
+      userPercentageInput = 0
+    }
+    dispatch({
+      type: 'HANDLE_TARGET_PERCENTAGE_INPUT',
+      payload: { id, userPercentageInput }
+    })
+  }
+
 
   return (<GlobalContext.Provider value={{
     currentTotalAssets: state.currentTotalAssets,
@@ -35,6 +60,8 @@ export const GlobalProvider = ({ children }) => {
     newTotalAssets: state.newTotalAssets,
     delStock,
     addStock,
+    handleQuantityInput,
+    handleTargetPercentageInput
   }}>
     {children}
   </GlobalContext.Provider>);

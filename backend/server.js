@@ -111,12 +111,12 @@ app.post('/addstock', (req, res) => {
                 res.send(newPortfolioItem);
               }
             ).catch(
-              () => res.send("Error: Either your search term was invalid, or the request to add a stock was too frequent. Please try again.")
+              () => res.status(500).end("Error: Either your search term was invalid, or the request to add a stock was too frequent. Please try again.")
             )
         }
       )
       .catch(
-        () => res.send("Error: Either your search term was invalid, or the request to add a stock was too frequent. Please try again.")
+        () => res.status(500).end("Error: Either your search term was invalid, or the request to add a stock was too frequent. Please try again.")
       )
   });
 
