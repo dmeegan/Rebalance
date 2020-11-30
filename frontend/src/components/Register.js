@@ -5,7 +5,7 @@ import { Form, Button} from 'react-bootstrap';
 
 export default function Register() {
 
-    const registerUser = (e) => {
+    const handleRegister = (e) => {
         e.preventDefault()
         let request = {
             firstName : document.getElementById('RegisterFormFirstName').value,
@@ -23,7 +23,7 @@ export default function Register() {
     };
 
    return (
-        <Form className="customForm" onSubmit={(e) => registerUser(e)}>
+        <Form className="customForm" onSubmit={(e) => handleRegister(e)}>
             <h2>Register</h2>
             <Form.Group controlId="RegisterFormFirstName">
                 <Form.Label>First Name</Form.Label>

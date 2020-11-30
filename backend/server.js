@@ -23,29 +23,22 @@ app.use(bodyParser.urlencoded({ extended : false}));
 //registerUser
 app.post('/register', (req, res) => {
     const { firstName, lastName, email, password } = req.body;
-    const result = db.registerUser(first_name, last_name, email, password);
+    const result = db.registerUser(firstName, lastName, email, password);
 
     result
     .then(data => res.json({ success: true }))
     .catch(err => console.log(err))
 });
 
-//registerUser with email validation using express-validator
+//login
+app.post('/login', (req, res) => {
+  const { firstName, lastName, email, password } = req.body;
+  const result = db.registerUser(firstName, lastName, email, password);
 
-// app.post('/api/register', 
-// check('email').isEmail().normalizeEmail(), (req, res) => {
-//     const errors =  validationResult(req);
-//     if (!errors.isEmpty(errors)) {
-//         return res.status(422).json({errors: errors.array()
-//         })
-//     }
-
-//     const result = db.resisterUser(first_name, last_name, email, password);
-
-//     result
-//     .then(data => response.json({ success: true }))
-//     .catch(err => console.log(err))
-// })
+  result
+  .then(data => res.json({ success: true }))
+  .catch(err => console.log(err))
+});
 
 //read
 app.get('/getPortfolio', (req, res) => {
