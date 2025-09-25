@@ -44,10 +44,5 @@ Oops, I added the wrong stock to my portfolio! No worries, Rebalance allows you 
 
 * **Daniel Meegan** - [dmeegan](https://github.com/dmeegan)
 
-## Contact
-
-* **Email:**  dmeegan123@gmail.com
-* **Phone:**  774-722-1964
-
 
 
